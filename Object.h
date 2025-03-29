@@ -16,7 +16,7 @@ public:
     std::vector<float> position;
     std::vector<float> velocity;
     float radius;
-    float mass;
+    double mass;
 
     // constructors
     Object();

@@ -9,8 +9,8 @@
 
 constexpr double GRAV_CONST = 6.67430e-11;
 
-float screenHeight = 600.0f;
-float screenWidth = 800.0f;
+float screenHeight = 1000.0f;
+float screenWidth = 1400.0f;
 
 //function declarations
 GLFWwindow* StartGLFW(); // a function StartGLFW that returns a pointer to a window
@@ -33,8 +33,8 @@ int main() {
 
 
     std::vector<Object> objs = {
-            Object(std::vector<float>{200,300},std::vector<float>{0,5},7.35* pow(10,22),20),
-            Object(std::vector<float>{700,300},std::vector<float>{0,-5},7.35* pow(10,22),20),
+            Object(std::vector<float>{screenWidth/2,screenHeight/2},std::vector<float>{0,0},5.972* pow(10,24),20),
+            Object(std::vector<float>{2*screenWidth/3,screenHeight/2},std::vector<float>{0,-10},7.35* pow(10,22),5),
     };
 
 
@@ -52,7 +52,7 @@ int main() {
                 float dy =  obj2.position[1] - obj.position[1];
                 float distance = sqrt(dx*dx+dy*dy);
                 std::vector<float> direction = {dx/distance,dy/distance};
-                distance *=10000;
+                distance *=100000;
 
                 float Gforce = (GRAV_CONST * obj.mass *obj2.mass / (distance*distance));
                 float acc1 = Gforce / obj.mass;
@@ -62,7 +62,7 @@ int main() {
             }
             obj.updatePos();
             obj.DrawCircle(100);
-            obj.checkCollisionWithScreen(screenWidth,screenHeight);
+            //obj.checkCollisionWithScreen(screenWidth,screenHeight);
 
 
 
