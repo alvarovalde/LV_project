@@ -1,7 +1,7 @@
 #include "Object.h"
 #include <vector>
 #include <iostream>
-
+#include <GLFW/glfw3.h>
 
 Object::Object(){
     std::cout << "Object initiated at 0,0" << std::endl;

@@ -1,10 +1,17 @@
 //Header files and preprocessor declarations
 #include <iostream>
 #include <vector>
-#include <GLFW/glfw3.h>
 #include <cmath>
 #include "Object.h"
 
+#include <glew.h>    // for modern OpenGL function loading
+#include <GLFW/glfw3.h>
+/*
+ *
+
+#include <glm/gtc/matrix_transform.hpp>
+#include "glm\glm.hpp"
+ */
 
 
 constexpr double GRAV_CONST = 6.67430e-11;
