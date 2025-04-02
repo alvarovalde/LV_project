@@ -4,11 +4,10 @@
 #include <cmath>
 #include "Object.h"
 
-#include <glew.h>    // for modern OpenGL function loading
+#include <glew.h>
 #include <GLFW/glfw3.h>
-/*
- *
 
+/*
 #include <glm/gtc/matrix_transform.hpp>
 #include "glm\glm.hpp"
  */
