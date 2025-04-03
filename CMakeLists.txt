@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.28)
+cmake_minimum_required(VERSION 3.8)
 project(gravity_simulator)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -6,6 +6,11 @@ set(CMAKE_CXX_STANDARD 17)
 # ==========================
 #  1) Fetch GLM via CMake
 # ==========================
+# This is the newer CMake “FetchContent” mechanism,
+# which automatically downloads (clones) the GLM library
+# from GitHub at the specified commit (GIT_TAG).
+# It then configures it so you can link to glm::glm
+# in your code.
 include(FetchContent)
 FetchContent_Declare(
         glm
@@ -14,24 +19,35 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(glm)
 
+
+
+
+
 # ==========================
 #  2) Define GLFW as IMPORTED
 # ==========================
-# You have libglfw3.a in lib/lib-mingw-w64/, plus headers in lib/include.
-add_library(glfw STATIC IMPORTED)
+add_library(glfw STATIC IMPORTED) # Declares a dummy CMake target called glfw which is “IMPORTED.” That means we are telling CMake where to find the library binary and headers, rather than letting CMake build the library itself.
+# “STATIC” here means we’re treating this as a static library.
 set_target_properties(glfw PROPERTIES
         IMPORTED_LOCATION
         "${CMAKE_CURRENT_SOURCE_DIR}/lib/lib-mingw-w64/libglfw3.a"
         INTERFACE_INCLUDE_DIRECTORIES
         "${CMAKE_CURRENT_SOURCE_DIR}/lib/include"
 )
+# set_target_properties(glfw PROPERTIES ...)
+#IMPORTED_LOCATION – path to the actual .a or .lib file for GLFW.
+#INTERFACE_INCLUDE_DIRECTORIES – the include path for the GLFW headers.
+#By setting INTERFACE_INCLUDE_DIRECTORIES, any target that links to “glfw” automatically inherits -I<that-folder> on the compiler command line. So you won’t need a separate #include <...> path for your code – it’s built into the usage requirements of the “glfw” target.
+
+
+
+
+
+
 
 # ==========================
 #  3) Define GLEW as IMPORTED
 # ==========================
-# We'll assume you want STATIC GLEW. Typically that file is called 'glew32s.lib',
-# but if you only have 'glew32.lib' and you define GLEW_STATIC, it means you have
-# a static library renamed or a custom build. Adjust the filename as needed.
 add_library(glew STATIC IMPORTED)
 set_target_properties(glew PROPERTIES
         IMPORTED_LOCATION
@@ -40,19 +56,27 @@ set_target_properties(glew PROPERTIES
         "${CMAKE_CURRENT_SOURCE_DIR}/lib/glew"
 )
 
-# If you want a static build, you usually define GLEW_STATIC:
-# (This ensures #ifdef GLEW_STATIC in the GLEW headers is recognized.)
+# This adds a -DGLEW_STATIC compiler flag to all source files. Typically GLEW’s header uses #ifdef GLEW_STATIC to do some static-library-specific code paths.
 add_compile_definitions(GLEW_STATIC)
+
+
+
+
 
 # ==========================
 #  4) Create the Executable
 # ==========================
 add_executable(gravity_simulator
-        main.cpp
-        Object.h
-        Object.cpp
-        ISA_atmosphere.h
-        ISA_atmosphere.cpp
+        src/main.cpp
+        src/Object.cpp
+        src/ISA_atmosphere.cpp
+)
+
+
+# 5) Tell the compiler to look in our own include/ folder
+target_include_directories(gravity_simulator
+        PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/include"   # so #include "Object.h" etc. works
 )
 
 # ==========================
@@ -63,9 +87,21 @@ add_executable(gravity_simulator
 # - Link to glm via its CMake target,
 # - Link to our glew imported target.
 target_link_libraries(gravity_simulator
-        PRIVATE
+        #PRIVATE
         glfw
         opengl32
         glm::glm
         glew
 )
+
+# target_link_libraries(gravity_simulator PRIVATE ...)
+#
+#This tells CMake: “The executable gravity_simulator depends on glfw, opengl32, glm::glm, and glew.”
+#
+#Because you set INTERFACE_INCLUDE_DIRECTORIES for glfw and glew, your compiler automatically sees those header paths.
+#
+#opengl32 is the standard Windows OpenGL library.
+#
+#glm::glm is the target that FetchContent created for GLM.
+#
+#The PRIVATE keyword means these dependencies are only used internally by gravity_simulator. Another target depending on gravity_simulator would not automatically inherit those link/include settings.

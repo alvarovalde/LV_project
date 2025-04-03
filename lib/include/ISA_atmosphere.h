@@ -3,9 +3,17 @@
 
 
 //Physical constants for ISA
-static int s;
-register int e;
-extern int r
+
+//the fact that this is static means no .cpp files
+//will be able to see it. It is also done at compile-time.
+static constexpr double P0 = 101325.0;
+static constexpr double T0 = 288.15;
+
+
+
+
+
+
 class ISA_atmosphere {
 
 
