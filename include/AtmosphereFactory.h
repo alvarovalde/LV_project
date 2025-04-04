@@ -8,7 +8,7 @@
 
 class AtmosphereFactory {
 public:
-    static std::unique_ptr<Atmosphere> createAtmosphere(AtmosphereType type,InterpolationType Type, double step);
+    static std::unique_ptr<Atmosphere> createAtmosphere(AtmosphereType type);
 
 };
 

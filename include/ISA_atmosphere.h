@@ -1,27 +1,21 @@
 #ifndef GRAVITY_SIMULATOR_ISA_ATMOSPHERE_H
 #define GRAVITY_SIMULATOR_ISA_ATMOSPHERE_H
 
-
-//Physical constants for ISA
-
-//the fact that this is static means no .cpp files
-//will be able to see it. It is also done at compile-time.
-static constexpr double P0 = 101325.0;
-static constexpr double T0 = 288.15;
+#include "Atmosphere.h"
 
 
 
-
-
-
-class ISA_atmosphere {
-
-
-private:
-
+class ISA_atmosphere: public Atmosphere {
 public:
-    float altitude;
+    ISA_atmosphere();
+    virtual ~ISA_atmosphere() = default;
 
+    double getTemperature(double Geometric_caltitude) const override;
+    double getPressure(double Geometric_altitude) const override;
+    double getDensity(double Geometric_altitude) const override;
+private:
+    double directTemperature(double Geometric_altitude) const;
+    double directPressure(double Geometric_altitude) const;
 
 };
 

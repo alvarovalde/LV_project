@@ -4,7 +4,7 @@
 namespace constants {
 
 
-    inline constexpr double G      = 9.80665;   //m/s^2
+    inline constexpr double G0      = 9.80665;   //m/s^2
     inline constexpr double R_AIR  = 287.053;   //J/(kg·K)
     inline constexpr double P0     = 101325.0;  //Pa
     inline constexpr double T0     = 288.15;    //K

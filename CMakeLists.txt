@@ -71,7 +71,6 @@ add_executable(gravity_simulator
         src/main.cpp
         src/Object.cpp
         src/atmospheric_models/ISA_atmosphere.cpp
-        src/atmospheric_models/atmosphere.cpp
         src/atmospheric_models/AtmosphereFactory.cpp
 )
 
