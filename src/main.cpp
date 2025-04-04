@@ -7,16 +7,15 @@
 #include <glew.h>
 #include <GLFW/glfw3.h>
 
+
+#include "constants.h"
 /*
 #include <glm/gtc/matrix_transform.hpp>
 #include "glm\glm.hpp"
  */
 
 
-constexpr double GRAV_CONST = 6.67430e-11;
 
-float screenHeight = 1000.0f;
-float screenWidth = 1400.0f;
 
 //function declarations
 GLFWwindow* StartGLFW(); // a function StartGLFW that returns a pointer to a window
@@ -39,8 +38,8 @@ int main() {
 
 
     std::vector<Object> objs = {
-            Object(std::vector<float>{screenWidth/2,screenHeight/2},std::vector<float>{0,0},5.972* pow(10,24),20),
-            Object(std::vector<float>{2*screenWidth/3,screenHeight/2},std::vector<float>{0,-10},7.35* pow(10,22),5),
+            Object(std::vector<float>{constants::screenWidth/2,constants::screenHeight/2},std::vector<float>{0,0},5.972* pow(10,24),20),
+            Object(std::vector<float>{2*constants::screenWidth/3,constants::screenHeight/2},std::vector<float>{0,-10},7.35* pow(10,22),5),
     };
 
 
@@ -60,7 +59,7 @@ int main() {
                 std::vector<float> direction = {dx/distance,dy/distance};
                 distance *=100000;
 
-                float Gforce = (GRAV_CONST * obj.mass *obj2.mass / (distance*distance));
+                float Gforce = (constants::GRAV_CONST * obj.mass *obj2.mass / (distance*distance));
                 float acc1 = Gforce / obj.mass;
 
                 std::vector<float> acc = {acc1*direction[0],acc1*direction[1]};
@@ -109,10 +108,10 @@ GLFWwindow*  setUpSimulation()
     glfwMakeContextCurrent( window );
 
     // Set up the viewport and projection once, after window creation
-    glViewport(0, 0, static_cast<GLsizei>(screenWidth), static_cast<GLsizei>(screenHeight)); // specifies the part of the window to which OpenGL will draw (in pixels), convert from normalised to pixels
+    glViewport(0, 0, static_cast<GLsizei>(constants::screenWidth), static_cast<GLsizei>(constants::screenHeight)); //specifies the part of the window to which OpenGL will draw (in pixels), convert from normalised to pixels
     glMatrixMode(GL_PROJECTION);  // projection matrix defines the properties of the camera that views the objects in the world coordinate frame. Here you typically set the zoom factor, aspect ratio and the near and far clipping planes
     glLoadIdentity(); // replace the current matrix with the identity matrix and starts us a fresh because matrix transforms such as glOrpho and glRotate cumulate, basically puts us at (0, 0, 0)
-    glOrtho(0.0, screenWidth, 0.0, screenHeight, -1.0, 1.0); // essentially set coordinate system
+    glOrtho(0.0, constants::screenWidth, 0.0, constants::screenHeight, -1.0, 1.0); //essentially set coordinate system
     glMatrixMode(GL_MODELVIEW);  // (default matrix mode) modelview matrix defines how your objects are transformed (meaning translation, rotation and scaling) in your world
     glLoadIdentity();
     return  window;
@@ -128,7 +127,7 @@ GLFWwindow* StartGLFW()  // a function StartGLFW that returns a pointer to a win
     }
 
     // Else, create a window by calling a functio from the library and return a pointer to the window
-    GLFWwindow* window = glfwCreateWindow(screenWidth,screenHeight,"gravity simulator", NULL,NULL);
+    GLFWwindow* window = glfwCreateWindow(constants::screenWidth,constants::screenHeight,"gravity simulator", NULL,NULL);
 
             return window;
 

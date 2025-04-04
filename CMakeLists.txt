@@ -48,7 +48,8 @@ set_target_properties(glfw PROPERTIES
 # ==========================
 #  3) Define GLEW as IMPORTED
 # ==========================
-add_library(glew STATIC IMPORTED)
+add_library(glew STATIC IMPORTED
+        include/constants.h)
 set_target_properties(glew PROPERTIES
         IMPORTED_LOCATION
         "${CMAKE_CURRENT_SOURCE_DIR}/lib/glew/glew32.lib"
@@ -69,7 +70,9 @@ add_compile_definitions(GLEW_STATIC)
 add_executable(gravity_simulator
         src/main.cpp
         src/Object.cpp
-        src/ISA_atmosphere.cpp
+        src/atmospheric_models/ISA_atmosphere.cpp
+        src/atmospheric_models/atmosphere.cpp
+        src/atmospheric_models/AtmosphereFactory.cpp
 )
 
 
