@@ -19,11 +19,6 @@ namespace constants {
 
 enum class AtmosphereType {
     ISA,
-    ISA_TABLE,
-};
-
-enum class InterpolationType{
-    LINEAR,
 };
 
 

@@ -12,7 +12,10 @@ public:
     virtual double getTemperature(double altitude) const = 0;
     virtual double getPressure(double altitude) const = 0;
     virtual double getDensity(double altitude) const =0;
-
+    virtual void getProperties(double altitudeMeters,
+                       double &temperature,
+                       double &pressure,
+                       double &density) const =0;
 };
 
 

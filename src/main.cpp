@@ -7,7 +7,7 @@
 #include <glew.h>
 #include <GLFW/glfw3.h>
 
-
+#include "AtmosphereFactory.h"
 #include "constants.h"
 /*
 #include <glm/gtc/matrix_transform.hpp>
@@ -18,7 +18,7 @@
 
 
 //function declarations
-GLFWwindow* StartGLFW(); // a function StartGLFW that returns a pointer to a window
+GLFWwindow* StartGLFW(); //  A function StartGLFW that returns a pointer to a window
 GLFWwindow*  setUpSimulation();
 void checkScreenCollision(Object &obj);
 
@@ -29,8 +29,13 @@ void checkScreenCollision(Object &obj);
 //initiate main
 int main() {
 
+    auto atmosphere = AtmosphereFactory::createAtmosphere(AtmosphereType::ISA);
+
+
     // run all pre things
     GLFWwindow* window = setUpSimulation();
+
+
 
 
 
